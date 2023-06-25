@@ -29,7 +29,7 @@ adicionarFields(dimensionSelector, regexPageDimensionOficial)
 // executar function para adicionar métricas
 setTimeout(function() {
     adicionarFields(metricSelector, regexPageMetricsOficial);
-}, 2000)
+}, 1000)
 
 
 
@@ -43,16 +43,21 @@ var btnDropMetric = document.querySelectorAll('.with-row-controls .dropzone-box-
 */
 
 // linhas dimensoes
-selecionarDados('dropzone-box', 1, ["Nome do host", "Nome do evento"])
-function selecionarDados(btnCSSelector, btnCSSelectorPosition, selectListData){
-    setTimeout(function() {
+setTimeout(function() {
+    // adicionarFields(metricSelector, regexPageMetricsOficial);
+    selecionarDados('dropzone-box', 1, ["É um evento de conversão", "Nome do evento"])
+}, 2000)
+async function selecionarDados(btnCSSelector, btnCSSelectorPosition, selectListData){
         // clique no botão "soltar ou selecionar dimensão"
         // btnCSSelector = 'dropzone-box';
+        await delay(2000);
         waitForElmModified(btnCSSelector).then((elm) => {
+            // console.log(elm)
+            // alert(elm)
             // clique no botão "soltar ou selecionar dimensão"
-            elm[btnCSSelectorPosition].click(); // clique no primeiro item do array (é a LINHA)
+            elm[btnCSSelectorPosition].firstElementChild.click(); // clique no primeiro item do array (é a LINHA)
         });
-        
+        await delay(2000);
         // array com a lista de nomes/metricas/dimensoes/etc
         selectListData.forEach((val, i) => {
             // selecionar dimensão do dropdown que aparece, lista de dimensões
@@ -60,9 +65,12 @@ function selecionarDados(btnCSSelector, btnCSSelectorPosition, selectListData){
             waitForElm(btnOptionNameList).then((elm) => {
                 // console.log(elm)
                 elm.click();
+                // elm.dispatchEvent(new Event("input", { bubbles: true }))
             });
         })
-        }, 3000)
+        await delay(1000);
+        document.querySelectorAll('control-panel-text-input input[data-event-action=ChangeStartRow]')[0].value = 5; document.querySelectorAll('control-panel-text-input input[data-event-action=ChangeStartRow]')[0].dispatchEvent(
+            new Event("input", { bubbles: true }))
 }
 
 
@@ -117,7 +125,7 @@ FUNCTION ESPERAR O ELEMENTO EXISTIR
 function waitForElmModified(selector) {
     return new Promise(resolve => {
         if (document.querySelectorAll(selector)) {
-            return resolve(document.querySelector(selector));
+            return resolve(document.querySelectorAll(selector));
         }
   
         const observer = new MutationObserver(mutations => {
@@ -154,7 +162,11 @@ function waitForElm(selector) {
     });
 }
 
-
+function delay(milliseconds){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
+ }
 
 /* BOTOES E CAPTURAS - BACKUP
 */
