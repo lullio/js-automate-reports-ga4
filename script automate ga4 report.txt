@@ -6,9 +6,22 @@ let regexPageMetricsOficial = /Valor do evento/gi;
 // let regexPageDimensionOficial = /source \/ medium|link url|page title|page path +|landing page|page referrer|page location/gi;
 // let regexPageMetricsOficial = /^views$|event count per user|events per session|session|engage|total users|new users|returning users|user conversion rate|conversions|bounce rate|exits/gi;
 
-// Botão + de adicionar métrica e dimensão
+/*Botão + de adicionar métrica, dimensão e Segmentos
+*/
 let dimensionSelector = '.dimension-chip-list [aria-label="Add dimension"],.dimension-chip-list [aria-label="Adicionar dimensão"]';
 let metricSelector = '.metric-chip-list [aria-label="Add metric"],.metric-chip-list [aria-label="Adicionar métrica"]';
+let segmentSelector = '.segment-chip-list [aria-label="Add segment"],.segment-chip-list [aria-label="Adicionar segmento"]';
+
+/* capturar todos "botões" de soltar e arrastar
+*/
+let allBtnSelectors = document.querySelectorAll('dropzone-box');
+// [0] = comparações de Segmentos
+// [1] = linhas - soltar dimensão
+// [2] = colunas - soltar dimensão
+// [3] = valores - soltar métrica
+// [4] = filtros - soltar filtro
+// let btnSelectorRowDimension = '.with-row-controls .dropzone-box-droppable-container .droppable-element'; // document.querySelectorAll[0]
+// let btnSelectorColumnDimension = '.with-row-controls .dropzone-box-droppable-container .droppable-element'; // document.querySelectorAll[1]
 
 // executar function para adicionar dimensões
 adicionarFields(dimensionSelector, regexPageDimensionOficial)
@@ -18,6 +31,9 @@ setTimeout(function() {
     adicionarFields(metricSelector, regexPageMetricsOficial);
 }, 2000)
 
+
+
+
 /*  Selecionar Linhas 
  PARA REFERÊNCIA:
 // botão arrastar dimension LINHA
@@ -26,28 +42,28 @@ var btnDropDimension = document.querySelectorAll('.with-row-controls .dropzone-b
 var btnDropMetric = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container')[1]
 */
 function selecionarDados(btnCSSelector, selectListData){
-    
+    setTimeout(function() {
+        // clique no botão "soltar ou selecionar dimensão"
+        btnCSSelector = 'dropzone-box';
+        waitForElmModified(btnCSSelector).then((elm) => {
+            // clique no botão "soltar ou selecionar dimensão"
+            elm[1].click(); // clique no primeiro item do array (é a LINHA)
+            console.log(elm)
+        });
+        
+        selectListData = ["Nome do evento", "É um evento de conversão", "Nome do host"]
+        
+        selectListData.forEach((val, i) => {
+            // selecionar dimensão do dropdown que aparece, lista de dimensões
+            btnCSSelector = `button.context-menu-button[role="menuitem"][aria-label="${selectListData[i]}"]`
+            waitForElm(btnCSSelector).then((elm) => {
+                console.log(elm)
+                elm.click();
+            });
+        })
+        }, 3000)
 }
-setTimeout(function() {
-// clique no botão "soltar ou selecionar dimensão"
-btnCSSelector = '.with-row-controls .dropzone-box-droppable-container .droppable-element';
-waitForElmModified(btnCSSelector).then((elm) => {
-    // clique no botão "soltar ou selecionar dimensão"
-	elm[0].click(); // clique no primeiro item do array (é a LINHA)
-    console.log(elm)
-});
 
-selectListData = ["Nome do evento", "É um evento de conversão", "Nome do host"]
-
-selectListData.forEach((val, i) => {
-    // selecionar dimensão do dropdown que aparece, lista de dimensões
-    btnCSSelector = `button.context-menu-button[role="menuitem"][aria-label="${selectListData[i]}"]`
-    waitForElm(btnCSSelector).then((elm) => {
-        console.log(elm)
-        elm.click();
-    });
-})
-}, 3000)
 
 
 // botão arrastar dimension / drop or select dimension [ROW]

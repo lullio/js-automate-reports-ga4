@@ -217,6 +217,7 @@ async function td(){
          console.log("Executei o clique");
          i++;
    }
+   console.log("--------------------------------- ENCERRADO ---------------------------------")
 }td()
 
 console.log("Executed after the 1st log and before the 2 delays");
@@ -227,10 +228,10 @@ function delay(milliseconds){
        setTimeout(resolve, milliseconds);
    });
 }
-async function init(){
-   await delay(5000);
-   console.log("Executed after 5 second wait");
-   // val.click()
-   // await delay(5000);
-   // console.log("Executed after 10 seconds wait");
-}
+// async function init(){
+//    await delay(5000);
+//    console.log("Executed after 5 second wait");
+//    // val.click()
+//    // await delay(5000);
+//    // console.log("Executed after 10 seconds wait");
+// }
