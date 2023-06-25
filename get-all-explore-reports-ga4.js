@@ -152,6 +152,10 @@ arrFiltrar.forEach((val2, i2) => {
 
 })
 
+/*  CAPTURAR O NOME DA TAB ATIVA - TOP
+*/
+var tabName = document.querySelector('.step-name input').getAttribute('aria-label');
+
 
 /*
    FINAL DATA / STORE EVERYTHING IN AN OBJECT
@@ -162,7 +166,7 @@ let tabData = {
     dimensoes: {
         arr: allDimensionsArr,
         str: allDimensionsStr,
-		strRegex: allDimensionsStrRegex
+		    strRegex: allDimensionsStrRegex
     },
     metricas: {
         arr: allMetricsArr, 
@@ -189,7 +193,8 @@ let tabData = {
         str: allFiltersStr,
 		strRegex: allFiltersStrRegex,
 		oficial: oficial
-    }
+    },
+    tabName: tabName
 }
 return tabData;
 }
@@ -203,11 +208,11 @@ var tabs = document.querySelectorAll('.cdk-drag.step-wrapper .step-tab')
 
 async function td(){
    for(tab of tabs){
-         await delay(1000);
+         await delay(2000);
          allTabsData.push(getTabData());
          console.log("Executed after 5 second wait");
          // allTabsData[i].push(tab.textContent)
-         await delay(1000);
+         await delay(2000);
          tab.click()
          console.log("Executed after 10 seconds wait");
          i++;
