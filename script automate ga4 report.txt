@@ -18,24 +18,33 @@ setTimeout(function() {
     adicionarFields(metricSelector, regexPageMetricsOficial);
 }, 2000)
 
+/*  Selecionar Linhas 
 
-setTimeout(function() {
+*/
+// clique no botão "soltar ou selecionar dimensão"
+function selecionarDados(){
+
+}
+setTimeout(function(btnDropdownCSSSelector, ) {
     var btnDropDimension = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container .droppable-element')[0]
 waitForElm('.with-row-controls .dropzone-box-droppable-container .droppable-element').then((elm) => {
-	elm[0].click();
+    // clique no botão "soltar ou selecionar dimensão"
+    console.log(elm)
+	elm.click();
 });
 
-// selecionar drop row landing page
-let selectLandingPage = document.querySelector('button.context-menu-button[role="menuitem"][aria-label="Landing page + query string"]')
-waitForElm('button.context-menu-button[role="menuitem"][aria-label="Landing page + query string"]').then((elm) => {
+// selecionar dimensão do dropdown que aparece, lista de dimensões
+let selectLandingPage = document.querySelector('button.context-menu-button[role="menuitem"][aria-label="Nome do evento"]')
+waitForElm('button.context-menu-button[role="menuitem"][aria-label="Nome do evento"]').then((elm) => {
+    console.log(elm)
 	elm.click();
 });
 }, 3000)
 
+
 // botão arrastar dimension / drop or select dimension [ROW]
 var btnDropDimension = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container .droppable-element')[0]
 var btnDropMetric = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container')[1]
-
 
 
 // marca e desmarca td a cada 2s kk
