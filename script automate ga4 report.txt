@@ -1,0 +1,140 @@
+
+
+// regex
+let regexPageDimension = /source \/ medium|link url|page title|page path +|landing page|page referrer|page location/gi;
+let regexPageMetrics = /^views$|event count per user|events per session|session|engage|total users|new users|returning users|user conversion rate|conversions|bounce rate|exits/gi;
+
+// botao +
+let dimensionSelector = '.dimension-chip-list [aria-label="Add dimension"]';
+let metricSelector = '.metric-chip-list [aria-label="Add metric"]';
+
+//executar function para adicionar dimensões
+adicionarFields(dimensionSelector, regexPageDimension)
+
+// executar function para adicionar métricas
+setTimeout(function() {
+    adicionarFields(metricSelector, regexPageMetrics);
+}, 2000)
+
+setTimeout(function() {
+    var btnDropDimension = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container .droppable-element')[0]
+waitForElm('.with-row-controls .dropzone-box-droppable-container .droppable-element').then((elm) => {
+	elm[0].click();
+});
+
+// selecionar drop row landing page
+let selectLandingPage = document.querySelector('button.context-menu-button[role="menuitem"][aria-label="Landing page + query string"]')
+waitForElm('button.context-menu-button[role="menuitem"][aria-label="Landing page + query string"]').then((elm) => {
+	elm.click();
+});
+}, 3000)
+
+// botão arrastar dimension / drop or select dimension [ROW]
+var btnDropDimension = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container .droppable-element')[0]
+var btnDropMetric = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container')[1]
+
+// marca e desmarca td a cada 2s kk
+//setInterval(function () {adicionarFields(metricSelector, regexPageMetrics)}, 2000);
+
+
+
+// FUNCTION - Adicionar metricas e dimensoes 
+function adicionarFields(selector, regex){
+
+// 1. CLIQUE NO ÍCONE + de select dimensions
+waitForElm(selector).then((elm) => {
+	elm.click();
+});
+
+// 2. CLIQUE NO LINK expand all
+waitForElm('.expand-all-button').then((elm) => {
+	elm.click();
+});
+
+// 3. CLIQUE NOS CHECKBOXES - marcar/selecionar dimensoes
+waitForElm('.first-col-value').then((elm) => {
+	document.querySelectorAll('.first-col-value').forEach(val => {
+    if(val.textContent.trim().toLowerCase().search(regex) !== -1){
+        //console.log(val)
+        // clicar
+        val.click();
+    }
+})
+});
+
+// 4. CLIQUE NO BOTÃO IMPORT
+waitForElm('.confirm-button.mdc-button').then((elm) => {
+	elm.click();
+});
+
+return;
+}
+
+
+
+
+
+
+// ÍCONE + de select dimensions
+var addDimension = document.querySelector('.dimension-chip-list [aria-label="Add dimension"]').click()
+
+// ÍCONE + de select metrics
+var addMetric = document.querySelector('.mtric-chip-list [aria-label="Add metric"]').click()
+
+// Link para Expand all compatibles
+var expandAll = document.querySelector('.expand-all-button').click();
+
+
+
+/*All Pages & Landing Pages Reports*/
+let regexPageDimension = /source \/ medium|link url|page title|page path +|landing page|page referrer|page location/gi;
+let regexPageMetrics = /^views$|event count per user|events per session|session|engage|total users|new users|returning users|user conversion rate|conversions|bounce rate|exits/gi;
+
+/*Top Events*/
+let regexTopEventsDimension = /^source \/ medium$|link url|page title|page path +|landing page|page referrer|Outbound/gi;
+let regexTopEventsMetrics = /^event count$|event count per user|events per session|^session$|engage|total users|new users|returning users|user conversion rate|conversions|user engagement/gi;
+
+// Selecionar Dimensões
+document.querySelectorAll('.first-col-value').forEach(val => {
+    // se a dimensão tiver o texto tal.. (formatei o texto para ficar minusculo)
+    let regexDimension = /source \/ medium|link url|page title|page path +|landing page|page referrer|page location/gi;
+    if(val.textContent.trim().toLowerCase().search(regexDimension) !== -1){
+        //console.log(val)
+        // clicar
+        val.click();
+    }
+})
+
+
+// Botão Import
+var btnImport = document.querySelector('.confirm-button.mdc-button').click()
+
+
+// botão arrastar dimension / drop or select dimension [ROW]
+var btnDropDimension = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container .droppable-element')[0]
+var btnDropMetric = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container')[1]
+
+
+
+
+
+
+function waitForElm(selector) {
+  return new Promise(resolve => {
+      if (document.querySelector(selector)) {
+          return resolve(document.querySelector(selector));
+      }
+
+      const observer = new MutationObserver(mutations => {
+          if (document.querySelector(selector)) {
+              resolve(document.querySelector(selector));
+              observer.disconnect();
+          }
+      });
+
+      observer.observe(document.body, {
+          childList: true,
+          subtree: true
+      });
+  });
+}

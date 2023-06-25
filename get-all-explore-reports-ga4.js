@@ -203,11 +203,11 @@ var tabs = document.querySelectorAll('.cdk-drag.step-wrapper .step-tab')
 
 async function td(){
    for(tab of tabs){
-         await delay(5000);
+         await delay(1000);
          allTabsData.push(getTabData());
          console.log("Executed after 5 second wait");
          // allTabsData[i].push(tab.textContent)
-         await delay(5000);
+         await delay(1000);
          tab.click()
          console.log("Executed after 10 seconds wait");
          i++;
