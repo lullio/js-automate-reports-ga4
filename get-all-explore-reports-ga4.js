@@ -210,11 +210,11 @@ async function td(){
    for(tab of tabs){
          await delay(2000);
          allTabsData.push(getTabData());
-         console.log("Executed after 5 second wait");
+         console.log("Capturando todos items da Tab");
          // allTabsData[i].push(tab.textContent)
          await delay(2000);
          tab.click()
-         console.log("Executed after 10 seconds wait");
+         console.log("Executei o clique");
          i++;
    }
 }td()
