@@ -23,6 +23,18 @@ let allBtnSelectors = document.querySelectorAll('dropzone-box');
 // let btnSelectorRowDimension = '.with-row-controls .dropzone-box-droppable-container .droppable-element'; // document.querySelectorAll[0]
 // let btnSelectorColumnDimension = '.with-row-controls .dropzone-box-droppable-container .droppable-element'; // document.querySelectorAll[1]
 
+///! ou selecionando os botoes individuais(melhor), com o método acima tive problema nas colunas onde o limite é 2, ai o botao desaparece, a conta fica errada
+// botao soltar ou selecionar segmento
+document.querySelectorAll('concept-chip-list[guided-help-id="segment-comparison"] dropzone-box');
+// LINHA - botao soltar ou selecionar dimensao
+document.querySelectorAll('concept-chip-list[title-text="Linhas"] dropzone-box,concept-chip-list[title-text="Rows"] dropzone-box')
+// COLUNA - botao soltar ou selecionar dimensao
+document.querySelectorAll('concept-chip-list[title-text="Colunas"] dropzone-box,concept-chip-list[title-text="Columns"] dropzone-box')
+// VALORES - botao soltar ou selecionar metrica
+document.querySelectorAll('concept-chip-list[title-text="Valores"] dropzone-box,concept-chip-list[title-text="Values"] dropzone-box')
+// FILTROS - botao soltar ou selecionar dimensao ou metrica
+document.querySelectorAll('concept-chip-list[title-text="Filtros"] dropzone-box,concept-chip-list[title-text="Filters"] dropzone-box')
+
 // executar function para adicionar dimensões
 adicionarFields(dimensionSelector, regexPageDimensionOficial)
 
@@ -43,28 +55,52 @@ var btnDropMetric = document.querySelectorAll('.with-row-controls .dropzone-box-
 */
 
 // linhas dimensoes
+//TOP FUNCIONAL, mas to usando async por isso comentei
+/* 
 setTimeout(function() {
     // adicionarFields(metricSelector, regexPageMetricsOficial);
     selecionarDados('dropzone-box', 1, ["É um evento de conversão", "Nome do evento"])
+    setTimeout(function() {
+        selecionarDados('dropzone-box', 2, ["É um evento de conversão", "Nome do evento"])
+    }, 1000)
+    selecionarDados('dropzone-box', 3, ["Valor do evento"])
 }, 2000)
+setTimeout(function() {
+    // adicionarFields(metricSelector, regexPageMetricsOficial);
+    selecionarDados('dropzone-box', 2, ["É um evento de conversão", "Nome do evento"])
+}, 3500)
+setTimeout(function() {
+    // adicionarFields(metricSelector, regexPageMetricsOficial);
+    selecionarDados('dropzone-box', 3, ["Valor do evento"])
+}, 5000)
+*/
+
+async function aplicarDados(){
+    // adicionarFields(metricSelector, regexPageMetricsOficial);
+    await delay(1500);
+    selecionarDados('dropzone-box', 1, ["É um evento de conversão", "Nome do evento"])
+    await delay(2000);
+    selecionarDados('dropzone-box', 2, ["É um evento de conversão", "Nome do evento"])
+    await delay(3000);
+    selecionarDados('concept-chip-list[title-text="Filtros"] dropzone-box,concept-chip-list[title-text="Filters"] dropzone-box', 0, ["Valor do evento"])
+}aplicarDados()
 async function selecionarDados(btnCSSelector, btnCSSelectorPosition, selectListData){
         // clique no botão "soltar ou selecionar dimensão"
         // btnCSSelector = 'dropzone-box';
         await delay(2000);
-        waitForElmModified(btnCSSelector).then((elm) => {
-            // console.log(elm)
-            // alert(elm)
-            // clique no botão "soltar ou selecionar dimensão"
-            elm[btnCSSelectorPosition].firstElementChild.click(); // clique no primeiro item do array (é a LINHA)
-        });
-        await delay(2000);
         // array com a lista de nomes/metricas/dimensoes/etc
         selectListData.forEach((val, i) => {
             // selecionar dimensão do dropdown que aparece, lista de dimensões
+            waitForElmModified(btnCSSelector).then((elm) => {
+                // console.log(elm)
+                // alert(elm)
+                // clique no botão "soltar ou selecionar dimensão"
+                elm[btnCSSelectorPosition]?.firstElementChild?.click(); // clique no primeiro item do array (é a LINHA)
+            });
             btnOptionNameList = `button.context-menu-button[role="menuitem"][aria-label="${selectListData[i]}"]`
             waitForElm(btnOptionNameList).then((elm) => {
                 // console.log(elm)
-                elm.click();
+                elm?.click();
                 // elm.dispatchEvent(new Event("input", { bubbles: true }))
             });
         })
@@ -168,16 +204,17 @@ function delay(milliseconds){
     });
  }
 
+
 /* BOTOES E CAPTURAS - BACKUP
 */
 // ÍCONE + de select dimensions
-var addDimension = document.querySelector('.dimension-chip-list [aria-label="Add dimension"]').click()
+var addDimension = document.querySelector('.dimension-chip-list [aria-label="Add dimension"]')
 
 // ÍCONE + de select metrics
-var addMetric = document.querySelector('.mtric-chip-list [aria-label="Add metric"]').click()
+var addMetric = document.querySelector('.mtric-chip-list [aria-label="Add metric"]')
 
 // Link para Expand all compatibles
-var expandAll = document.querySelector('.expand-all-button').click();
+var expandAll = document.querySelector('.expand-all-button');
 
 
 
@@ -190,6 +227,7 @@ let regexTopEventsDimension = /^source \/ medium$|link url|page title|page path 
 let regexTopEventsMetrics = /^event count$|event count per user|events per session|^session$|engage|total users|new users|returning users|user conversion rate|conversions|user engagement/gi;
 
 // Selecionar Dimensões
+/*
 document.querySelectorAll('.first-col-value').forEach(val => {
     // se a dimensão tiver o texto tal.. (formatei o texto para ficar minusculo)
     let regexDimension = /source \/ medium|link url|page title|page path +|landing page|page referrer|page location/gi;
@@ -199,10 +237,10 @@ document.querySelectorAll('.first-col-value').forEach(val => {
         val.click();
     }
 })
-
+*/
 
 // Botão Import
-var btnImport = document.querySelector('.confirm-button.mdc-button').click()
+var btnImport = document.querySelector('.confirm-button.mdc-button')
 
 
 // botão arrastar dimension / drop or select dimension [ROW]
