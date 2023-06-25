@@ -41,23 +41,24 @@ var btnDropDimension = document.querySelectorAll('.with-row-controls .dropzone-b
 // botão arrastar dimension COLUNA
 var btnDropMetric = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container')[1]
 */
-function selecionarDados(btnCSSelector, selectListData){
+
+// linhas dimensoes
+selecionarDados('dropzone-box', 1, ["Nome do host", "Nome do evento"])
+function selecionarDados(btnCSSelector, btnCSSelectorPosition, selectListData){
     setTimeout(function() {
         // clique no botão "soltar ou selecionar dimensão"
-        btnCSSelector = 'dropzone-box';
+        // btnCSSelector = 'dropzone-box';
         waitForElmModified(btnCSSelector).then((elm) => {
             // clique no botão "soltar ou selecionar dimensão"
-            elm[1].click(); // clique no primeiro item do array (é a LINHA)
-            console.log(elm)
+            elm[btnCSSelectorPosition].click(); // clique no primeiro item do array (é a LINHA)
         });
         
-        selectListData = ["Nome do evento", "É um evento de conversão", "Nome do host"]
-        
+        // array com a lista de nomes/metricas/dimensoes/etc
         selectListData.forEach((val, i) => {
             // selecionar dimensão do dropdown que aparece, lista de dimensões
-            btnCSSelector = `button.context-menu-button[role="menuitem"][aria-label="${selectListData[i]}"]`
-            waitForElm(btnCSSelector).then((elm) => {
-                console.log(elm)
+            btnOptionNameList = `button.context-menu-button[role="menuitem"][aria-label="${selectListData[i]}"]`
+            waitForElm(btnOptionNameList).then((elm) => {
+                // console.log(elm)
                 elm.click();
             });
         })
