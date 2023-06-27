@@ -15,11 +15,12 @@ document.querySelectorAll(".dimension-chip-list form > div.concept-chip.draggabl
 let allDimensionsStrRegex = "", allDimensionsStr = "", allDimensionsArr = [];
 document.querySelectorAll(".dimension-chip-list form > div.concept-chip.draggable:not(.movable) span").forEach(val =>  {
   allDimensionsStr += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + ","
-  allDimensionsStrRegex += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "|";
+  allDimensionsStrRegex += "^" + val.textContent.replace(/\n|\r|\s{2,}/gi, '')  + "$" + "|";
   allDimensionsArr.push(val.textContent.replace(/\n|\r|\s{2,}/gi, ''))
 })
 // remover o último | da allDimensionsStrRegex
 allDimensionsStrRegex = allDimensionsStrRegex.replace(/\|$/gi, '')
+allDimensionsStrRegex = `/${allDimensionsStrRegex}/gi;`
 // remover o último , da allDimensionsStr
 allDimensionsStr = allDimensionsStr.replace(/\,$/gi, '')
 
@@ -33,11 +34,12 @@ document.querySelectorAll(".metric-chip-list form > div.concept-chip.draggable:n
 let allMetricsStrRegex = "", allMetricsStr = "", allMetricsArr = [];
 document.querySelectorAll(".metric-chip-list form > div.concept-chip.draggable:not(.movable) span").forEach(val =>  {
   allMetricsStr += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + ","
-  allMetricsStrRegex += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "|";
+  allMetricsStrRegex += "^" + val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "$" + "|";
   allMetricsArr.push(val.textContent.replace(/\n|\r|\s{2,}/gi, ''))
 })
 // remover o último | da allMetricsStrRegex
 allMetricsStrRegex = allMetricsStrRegex.replace(/\|$/gi, '')
+allMetricsStrRegex = `/${allMetricsStrRegex}/gi;`
 // remover o último , da allMetricsStr
 allMetricsStr = allMetricsStr.replace(/\,$/gi, '')
 
@@ -52,11 +54,13 @@ document.querySelectorAll(".with-row-controls")[0].querySelectorAll('.concept-ch
 let allRowsStrRegex = "", allRowsStr = "", allRowsArr = [];
 document.querySelectorAll(".with-row-controls")[0].querySelectorAll('.concept-chips.padding  .movable.draggable span').forEach(val =>  {
   allRowsStr += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + ","
-  allRowsStrRegex += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "|";
+  allRowsStrRegex += "^" + val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "$" + "|";
   allRowsArr.push(val.textContent.replace(/\n|\r|\s{2,}/gi, ''))
 })
 // remover o último | da allRowsStrRegex
 allRowsStrRegex = allRowsStrRegex.replace(/\|$/gi, '')
+allRowsStrRegex = `/${allRowsStrRegex}/gi;`
+
 // remover o último , da allRowsStr
 allRowsStr = allRowsStr.replace(/\,$/gi, '')
 
@@ -71,11 +75,12 @@ document.querySelectorAll(".with-row-controls")[1].querySelectorAll('.concept-ch
 let allColumsStrRegex = "", allColumsStr = "", allColumsArr = [];
 document.querySelectorAll(".with-row-controls")[1].querySelectorAll('.concept-chips.padding  .movable.draggable span').forEach(val =>  {
   allColumsStr += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + ","
-  allColumsStrRegex += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "|";
+  allColumsStrRegex += "^" + val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "$" + "|";
   allColumsArr.push(val.textContent.replace(/\n|\r|\s{2,}/gi, ''))
 })
 // remover o último | da allColumsStrRegex
 allColumsStrRegex = allColumsStrRegex.replace(/\|$/gi, '')
+allColumsStrRegex = `/${allColumsStrRegex}/gi;`
 // remover o último , da allColumsStr
 allColumsStr = allColumsStr.replace(/\,$/gi, '')
 
@@ -88,11 +93,12 @@ document.querySelectorAll('.with-cell-type-control .concept-chips.padding .dropp
 let allValuesStrRegex = "", allValuesStr = "", allValuesArr = [];
 document.querySelectorAll('.with-cell-type-control .concept-chips.padding .droppable-element .concept-chip-container span').forEach(val =>  {
   allValuesStr += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + ","
-  allValuesStrRegex += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "|";
+  allValuesStrRegex += "^" + val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "$" + "|";
   allValuesArr.push(val.textContent.replace(/\n|\r|\s{2,}/gi, ''))
 })
 // remover o último | da allValuesStrRegex
 allValuesStrRegex = allValuesStrRegex.replace(/\|$/gi, '')
+allValuesStrRegex = `/${allValuesStrRegex}/gi;`
 // remover o último , da allValuesStr
 allValuesStr = allValuesStr.replace(/\,$/gi, '')
 
@@ -117,11 +123,12 @@ var newArr = arr.map(val => val.trim())
 let allFiltersStrRegex = "", allFiltersStr = "", allFiltersArr = [];
 document.querySelectorAll('filter-chip-list-settings-adapter .concept-chip span').forEach(val =>  {
   allFiltersStr += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + ","
-  allFiltersStrRegex += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "|";
+  allFiltersStrRegex += "^" + val.textContent.replace(/\n|\r|\s{2,}/gi, '') + "$" + "|";
   allFiltersArr.push(val.textContent.replace(/\n|\r|\s{2,}/gi, ''))
 })
 // remover o último | da allFiltersStrRegex
 allFiltersStrRegex = allFiltersStrRegex.replace(/\|$/gi, '')
+allFiltersStrRegex = `/${allFiltersStrRegex}/gi;`
 // remover o último , da allFiltersStr
 allFiltersStr = allFiltersStr.replace(/\,$/gi, '')
 
@@ -174,12 +181,12 @@ let tabData = {
 		strRegex: allMetricsStrRegex
     },
     linhas: {
-        arr: allRowsStr, 
+        arr: allRowsArr, 
         str: allRowsStr,
 		strRegex: allRowsStrRegex
     },
     colunas: {
-        arr: allColumsStr, 
+        arr: allColumsArr, 
         str: allColumsStr,
 		strRegex: allColumsStrRegex
     },
@@ -218,6 +225,8 @@ async function td(){
          i++;
    }
    console.log("--------------------------------- ENCERRADO ---------------------------------")
+   // armazenar todos os dados das tabs no localStorage
+   localStorage.setItem("backup", JSON.stringify(allTabsData))
 }td()
 
 console.log("Executed after the 1st log and before the 2 delays");

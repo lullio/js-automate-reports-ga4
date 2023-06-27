@@ -1,5 +1,5 @@
 
-
+var retrievedObject = JSON.parse(localStorage.getItem('backup'));
 // regex
 let regexPageDimensionOficial = /Nome do evento|É um evento de conversão/gi;
 let regexPageMetricsOficial = /Valor do evento/gi;
@@ -35,13 +35,17 @@ document.querySelectorAll('concept-chip-list[title-text="Valores"] dropzone-box,
 // FILTROS - botao soltar ou selecionar dimensao ou metrica
 document.querySelectorAll('concept-chip-list[title-text="Filtros"] dropzone-box,concept-chip-list[title-text="Filters"] dropzone-box')
 
-// executar function para adicionar dimensões
-adicionarFields(dimensionSelector, regexPageDimensionOficial)
+async function addDimensionsMetrics(){
+    await delay(2500);
+    // executar function para adicionar dimensões
+    adicionarFields(dimensionSelector, retrievedObject[0].dimensoes.strRegex)
+    await delay(2500);
+    // executar function para adicionar métricas
+    adicionarFields(metricSelector, retrievedObject[0].metricas.strRegex);
+}addDimensionsMetrics();
 
-// executar function para adicionar métricas
-setTimeout(function() {
-    adicionarFields(metricSelector, regexPageMetricsOficial);
-}, 1000)
+
+
 
 
 
@@ -77,11 +81,15 @@ setTimeout(function() {
 
 async function aplicarDados(){
     // adicionarFields(metricSelector, regexPageMetricsOficial);
+    var retrievedObject = JSON.parse(localStorage.getItem('backup'));
     await delay(1500);
-    selecionarDados('dropzone-box', 1, ["É um evento de conversão", "Nome do evento"])
+    // linha
+    selecionarDados('dropzone-box', 1, retrievedObject[0].linhas.arr)
     await delay(2000);
-    selecionarDados('dropzone-box', 2, ["É um evento de conversão", "Nome do evento"])
+    // coluna
+    selecionarDados('dropzone-box', 2, retrievedObject[0].colunas.arr)
     await delay(3000);
+    // filtros
     selecionarDados('concept-chip-list[title-text="Filtros"] dropzone-box,concept-chip-list[title-text="Filters"] dropzone-box', 0, ["Valor do evento"])
 }aplicarDados()
 async function selecionarDados(btnCSSelector, btnCSSelectorPosition, selectListData){
@@ -110,16 +118,6 @@ async function selecionarDados(btnCSSelector, btnCSSelectorPosition, selectListD
 }
 
 
-
-// botão arrastar dimension / drop or select dimension [ROW]
-var btnDropDimension = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container .droppable-element')[0]
-var btnDropMetric = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container')[1]
-
-
-// marca e desmarca td a cada 2s kk
-//setInterval(function () {adicionarFields(metricSelector, regexPageMetrics)}, 2000);
-
-
 /* 
 FUNCTION ADICIONAR MÉTRICAS E DIMENSÕES
 SELECIONAR MÉTRICAS E DIMENSOES
@@ -135,23 +133,20 @@ function adicionarFields(selector, regex){
         elm.click();
     });
 
-    // 3. CLIQUE NOS CHECKBOXES - marcar/selecionar dimensoes
-    waitForElm('.first-col-value').then((elm) => {
-        document.querySelectorAll('.first-col-value').forEach(val => {
-        if(val.textContent.trim().toLowerCase().search(regex) !== -1){
-            //console.log(val)
-            // clicar
-            val.click();
-        }
-    })
-    });
-
-    // 4. CLIQUE NO BOTÃO IMPORT
-    waitForElm('.confirm-button.mdc-button').then((elm) => {
-        elm.click();
-    });
-
-    return;
+        // 3. CLIQUE NOS CHECKBOXES - marcar/selecionar dimensoes
+        waitForElm('.first-col-value').then((elm) => {
+            document.querySelectorAll('.first-col-value').forEach(val => {
+            if(val.textContent.trim().search(regex) !== -1){
+                //console.log(val)
+                // clicar
+                val.click();
+            }
+        })
+        });
+        // 4. CLIQUE NO BOTÃO IMPORT
+        waitForElm('.confirm-button.mdc-button').then((elm) => {
+            elm.click();
+        });
 }
 
 /* 
@@ -238,6 +233,15 @@ document.querySelectorAll('.first-col-value').forEach(val => {
     }
 })
 */
+
+
+// botão arrastar dimension / drop or select dimension [ROW]
+// var btnDropDimension = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container .droppable-element')[0]
+// var btnDropMetric = document.querySelectorAll('.with-row-controls .dropzone-box-droppable-container')[1]
+
+
+// marca e desmarca td a cada 2s kk
+//setInterval(function () {adicionarFields(metricSelector, regexPageMetrics)}, 2000);
 
 // Botão Import
 var btnImport = document.querySelector('.confirm-button.mdc-button')
