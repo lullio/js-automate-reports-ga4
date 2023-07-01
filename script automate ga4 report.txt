@@ -477,7 +477,16 @@ function delay(milliseconds) {
     addDimensionsMetrics();
     await delay(500)
     aplicarDados();
-    await delay(500000)
+    await delay(9000)
+    /*  CRIAR NOVA TAB
+    */
+   // clicar em + para adicionar tab
+    document.querySelectorAll('button[data-guidedhelpid="step-selector-add-step"]')[0].click()
+    await delay(500)
+    // escolher o formato livre, relatorio free form
+    document.querySelectorAll('.context-menu-group button[aria-label="Formato livre"], .context-menu-group button[aria-label="Free form"]')[0].click()
+    await delay(500)
+
 } //for das tabs
     
 
