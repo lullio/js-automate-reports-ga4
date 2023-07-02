@@ -285,7 +285,7 @@ setTimeout(function() {
     // alert('hi')
     var filtros = retrievedObject[index].filtros.oficial;
     var qtdFiltros = retrievedObject[index].filtros.oficial.length;
-
+    var soma="";
     for (let [filtroTexto1, filtroTexto2, filtroTexto3] of filtros) {
       await delay(2000);
       // botão adicionar filter
@@ -306,17 +306,9 @@ setTimeout(function() {
       });
  
       await delay(2000);
-        // await delay(2000);
         // captura texto de todas correspondeicas regex, igual a, contem...
-        var soma="";
+       
       for (let [botaoIndex, botaoValue] of xx.entries()) {
-        // await delay(2000);
-        //console.log(index)
-        // botão adicionar filter
-
-          //console.log(botaoValue?.getAttribute('aria-label')?.trim(), filtroTexto1)
-          // await delay(1500);
-
           /*selecionar dimensao/metrica do filtro
             
           */
@@ -327,19 +319,16 @@ setTimeout(function() {
             botaoValue?.getAttribute("aria-label")?.trim() ==
             filtroTexto1.trim() && !soma.includes(filtroTexto1.trim())
           ) {
-            // alert(filtroTexto1.trim())
-            // alert(botaoValue?.getAttribute("aria-label")?.trim())
             await delay(1000);
             botaoValue.click();
             await delay(1500);
-          }
-        }
+
             /*selecionar correspondencia
             
             */
             //clicar no dropdown
             await delay(1000);
-            waitForElm("[name=filterForm] md-select").then((elm) => {
+            waitForElm("[name=filterForm] md-select.ng-invalid").then((elm) => {
               elm.click(); 
             });
             await delay(2000);
@@ -350,8 +339,7 @@ setTimeout(function() {
                 if (
                   val?.textContent
                     ?.replace(/\n*|\r*|\t*|\s{2,}/gi, "")
-                    .trim() == filtroTexto2.trim()
-                ) {
+                    .trim() == filtroTexto2.trim()){
                   // waitForElm(x).then((elm) => {
                   // console.log(elm)
                   await delay(2000);
@@ -364,10 +352,10 @@ setTimeout(function() {
             /*inserir texto no input e salvar / insira a expressão
             
             */
-            await delay(3000);
+            await delay(1000);
             waitForElm("filter-menu input").then((elm) => {
-              document.querySelectorAll('filter-menu input')[0].value = filtroTexto3; // clique no primeiro item do array (é a LINHA)
-              document.querySelectorAll('filter-menu input')[0].dispatchEvent(
+              document.querySelectorAll('filter-menu input.ng-empty')[0].value = filtroTexto3; // clique no primeiro item do array (é a LINHA)
+              document.querySelectorAll('filter-menu input.ng-empty')[0].dispatchEvent(
                 new Event("input", {
                   bubbles: true,
                   detail: { text: () => filtroTexto3 },
@@ -379,11 +367,14 @@ setTimeout(function() {
               /*clicar no botão aplicar
             
             */
-                waitForElm("filter-menu button[type=submit]").then((elm) => {
-
-                  elm.click();
+                waitForElmModified('filter-menu button[type=submit]').then((elm) => {
+                  var botoesAplicar = document.querySelectorAll('filter-menu button[type=submit]');
+                  elm[botoesAplicar.length-1].click();
                 });
                 await delay(2000);
+          }
+        }
+            
       await delay(1500);
     }
   }
