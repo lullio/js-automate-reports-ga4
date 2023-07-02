@@ -515,6 +515,11 @@ FUNCTION ESPERAR O ELEMENTO EXISTIR
       detail: { text: () => retrievedObject[index].tabName },
     })
   ); // google
+  document.querySelectorAll(".input-label.step-name > input")[0].dispatchEvent(new Event('blur'));
+  const ke = new KeyboardEvent('keydown', {
+    bubbles: true, cancelable: true, keyCode: 13
+});
+document.body.dispatchEvent(ke);
   await delay(1500);
 } //fim do for das tabs
 
