@@ -139,7 +139,7 @@ setTimeout(function() {
     // quantidade de dimensoes/metricas que tem no array, clicar no botoes a quantidade de vezes = quantidade de dimensoes/metricas para adicionar nas linhas/colunas/etc
 
     // todas dimensoes que existem na coluna dimensoes.. troquei de estrategia , ao inves de pegar as dimensoes somente ao clicar no botão selecionar dimensao, estou pegando todas que existem
-    var xx = document.querySelectorAll(
+    var xx = await document.querySelectorAll(
       ".data-panel-concept-list.dimension-chip-list form .concept-chip-text"
     );
     var dado_ptbr = "";
@@ -153,11 +153,12 @@ setTimeout(function() {
     } else if (tipoDeDado == "valor") {
       dado_ptbr = "Valores";
       dado_enus = "Values";
-      xx = document.querySelectorAll(
+      xx = await document.querySelectorAll(
         ".data-panel-concept-list.metric-chip-list form .concept-chip-text"
       );
     }
     var xy = "";
+    await delay(200);
     for (let x = 1; x <= selectListData.length; x++) {
       // await delay(200);
 
@@ -183,7 +184,7 @@ setTimeout(function() {
 
           // await delay(500);
           if (
-            botaoValue0?.textContent?.trim() == texto?.trim() &&
+            await botaoValue0?.textContent?.trim() == await texto?.trim() &&
             !xy.includes(texto.trim())
           ) {
             // alert(xy)
@@ -192,7 +193,7 @@ setTimeout(function() {
             await waitForElmModified(btnCSSelector).then((elm) => {
               elm[btnCSSelectorPosition]?.firstElementChild?.click();
             });
-            // await delay(200);
+            await delay(200);
             await waitForElmModified(
               'button.context-menu-button[role="menuitem"][aria-label]'
             ).then((elm) => {
@@ -205,6 +206,7 @@ setTimeout(function() {
             console.log(botaoValue0);
             // botaoValue0?.click();
             // await delay(700);
+            await delay(200);
             // xx[botaoIndex0] = ""
             // botaoValue0 = ""
           }
@@ -240,10 +242,10 @@ setTimeout(function() {
     await selecionarDados(
       'concept-chip-list[title-text="Linhas"] dropzone-box,concept-chip-list[title-text="Rows"] dropzone-box',
       0,
-      retrievedObject[index].linhas.arr,
+      await retrievedObject[index].linhas.arr,
       "linha"
     );
-    await delay(500);
+    await delay(1000);
     // coluna
     //   selecionarDados(
     //     'concept-chip-list[title-text="Colunas"] dropzone-box,concept-chip-list[title-text="Columns"] dropzone-box',
@@ -253,19 +255,19 @@ setTimeout(function() {
     await selecionarDados(
       'concept-chip-list[title-text="Colunas"] dropzone-box,concept-chip-list[title-text="Columns"] dropzone-box',
       0,
-      retrievedObject[index].colunas.arr,
+      await retrievedObject[index].colunas.arr,
       "coluna"
     );
-    await delay(500);
+    await delay(1000);
     // await delay(5000);
     //valores
     await selecionarDados(
       'concept-chip-list[title-text="Valores"] dropzone-box,concept-chip-list[title-text="Values"] dropzone-box',
       0,
-      retrievedObject[index].valores.arr,
+      await retrievedObject[index].valores.arr,
       "valor"
     );
-    await delay(500);
+    await delay(1000);
     // filtros
   }
   async function selecionarFiltros() {

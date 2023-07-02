@@ -3,7 +3,7 @@ document.querySelectorAll(".dimension-chip-list form > div.concept-chip.draggabl
 // get rows and columns
 document.querySelectorAll(".with-row-controls  .concept-chips.padding  .movable.draggable span")
 
-
+let allTabsData = [];
 
 function getTabData(){
 /* store all dimensions texts in Array, String and StringRegex to other script
@@ -162,7 +162,7 @@ arrFiltrar.forEach((val2, i2) => {
 /*  CAPTURAR O NOME DA TAB ATIVA - TOP
 */
 var tabName1=""
-async function tabName(){
+function tabName(){
   tabName1 = document.querySelector('.step-name input').getAttribute('aria-label');
 }tabName()
 
@@ -210,22 +210,29 @@ return tabData;
 }
 
 // get all tabs
-document.querySelectorAll('.cdk-drag.step-wrapper .step-tab')
-let i = 0;
-let allTabsData = []; // array de objs / todas tabs
-// allTabsData.push(getTabData());
-var tabs = document.querySelectorAll('.cdk-drag.step-wrapper .step-tab')
+// document.querySelectorAll('.cdk-drag.step-wrapper .step-tab')
+// let i = 0;
+// let allTabsData = []; // array de objs / todas tabs
+// // allTabsData.push(getTabData());
+// var tabs = document.querySelectorAll('.cdk-drag.step-wrapper .step-tab-inactive')
 
 async function td(){
+// document.querySelectorAll('.cdk-drag.step-wrapper .step-tab')
+// let i = 0;
+ // array de objs / todas tabs
+// allTabsData.push(getTabData());
+var tabs = await document.querySelectorAll('.cdk-drag.step-wrapper .step-tab-inactive')
    for(tab of tabs){
-         await delay(2000);
-         allTabsData.push(getTabData());
+        await tab.click()
+         await delay(1000);
+         var tabData = getTabData();
+         await tabData
+         await allTabsData.push(tabData);
          console.log("Capturando todos items da Tab");
          // allTabsData[i].push(tab.textContent)
-         await delay(5000);
-         tab.click()
+         await delay(1000);
          console.log("Executei o clique");
-         i++;
+         await delay(1000);
    }
    console.log("--------------------------------- ENCERRADO ---------------------------------")
    // armazenar todos os dados das tabs no localStorage
