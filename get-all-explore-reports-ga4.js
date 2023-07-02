@@ -13,11 +13,12 @@ document.querySelectorAll(".dimension-chip-list form > div.concept-chip.draggabl
 
 
 let allDimensionsStrRegex = "", allDimensionsStr = "", allDimensionsArr = [];
-document.querySelectorAll(".dimension-chip-list form > div.concept-chip.draggable:not(.movable) span").forEach(val =>  {
+document.querySelectorAll(".dimension-chip-list form > div.concept-chip.draggable:not(.movable) span,.with-row-controls .concept-chips.padding  .movable.draggable span ").forEach(val =>  {
   allDimensionsStr += val.textContent.replace(/\n|\r|\s{2,}/gi, '') + ","
   allDimensionsStrRegex += "^" + val.textContent.replace(/\n|\r|\s{2,}/gi, '')  + "$" + "|";
   allDimensionsArr.push(val.textContent.replace(/\n|\r|\s{2,}/gi, ''))
 })
+allDimensionsArr = [...new Set(allDimensionsArr)]
 // remover o último | da allDimensionsStrRegex
 allDimensionsStrRegex = allDimensionsStrRegex.replace(/\|$/gi, '')
 allDimensionsStrRegex = `/${allDimensionsStrRegex}/gi;`
@@ -136,7 +137,7 @@ allFiltersStr = allFiltersStr.replace(/\,$/gi, '')
 // get all filters
  document.querySelectorAll('filter-chip-list-settings-adapter .concept-chip span')
 */
-var filtrar = "corresponde exatamente a,contém,começa com,termina com,corresponde à RegEx,não corresponde exatamente a,não contém,não começa com,não termina com,não corresponde à RegEx";
+var filtrar = "não corresponde exatamente a,não corresponde à RegEx,não começa com,não termina com,não contém,corresponde à RegEx,corresponde exatamente a,contém,começa com,termina com";
 var oficial = [];
 var arrFiltrar = filtrar.split(',');
 // array dos filtros, qtd de filtros que existem / texto inteiro dos filtros
@@ -145,7 +146,7 @@ allFiltersArr.forEach((val1, i1) => {
 // array filtrar, que é todas variantes, contém, começa com,etc...
 arrFiltrar.forEach((val2, i2) => {
     // se encontrar alguma variante dentro do texto completo do filtro
-    if(val1.search(val2) !== -1){
+    if(val1.search("(?<!não )" + val2) !== -1){
         //alert(val1, val2);
         // vai inserir um array dentro do array oficial
         oficial.push(val1.split(val2)); // split na variante contém, começa com, etc
@@ -165,6 +166,10 @@ var tabName1=""
 function tabName(){
   tabName1 = document.querySelector('.step-name input').getAttribute('aria-label');
 }tabName()
+var reportName1=""
+function reportName(){
+  reportName1 = document.querySelectorAll('.analysis-header input')[0].value
+}reportName()
 
 
 /*
@@ -204,7 +209,8 @@ let tabData = {
 		strRegex: allFiltersStrRegex,
 		oficial: oficial
     },
-    tabName: tabName1
+    tabName: tabName1,
+    reportName: reportName1
 }
 return tabData;
 }

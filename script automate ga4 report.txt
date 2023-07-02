@@ -71,7 +71,7 @@ for (index = 0; index <= retrievedObject.length; index++) {
     ) {
       await adicionarFields(
         dimensionSelector,
-        retrievedObject[index].dimensoes.arr
+        retrievedObject[index]?.dimensoes?.arr
       );
     }
     // await delay(5000);
@@ -320,8 +320,7 @@ setTimeout(function() {
           await delay(1000);
           if (
             await botaoValue?.getAttribute("aria-label")?.trim() ==
-            await filtroTexto1.trim() && await !soma.includes(filtroTexto1.trim())
-          ) {
+            await filtroTexto1.trim())  { //&& await !soma.includes(filtroTexto1.trim())
             // await delay(1000);
             await botaoValue.click();
             // await delay(1500);
@@ -512,6 +511,7 @@ FUNCTION ESPERAR O ELEMENTO EXISTIR
   await tabInput.dispatchEvent(new Event('blur'));
 
   await delay(1000);
+  
 
   /*  CRIAR NOVA TAB
 
