@@ -61,7 +61,7 @@ for (index = 0; index <= retrievedObject.length; index++) {
     ADICIONAR MÉTRICAS E DIMENSÕES
 */
   async function addDimensionsMetrics() {
-    await delay(2500);
+    // await delay(2500);
     // executar function para adicionar dimensões
     // somente se tiver menos que 5 dimensoes ja adicionadas
     if (
@@ -69,19 +69,19 @@ for (index = 0; index <= retrievedObject.length; index++) {
         ".data-panel-concept-list.dimension-chip-list form"
       ).length <= 5
     ) {
-      adicionarFields(
+      await adicionarFields(
         dimensionSelector,
         retrievedObject[index].dimensoes.arr
       );
     }
-    await delay(5000);
+    // await delay(5000);
     if (
       document.querySelectorAll(
         ".data-panel-concept-list.metric-chip-list form"
       ).length <= 5
     ) {
       // executar function para adicionar métricas
-      adicionarFields(metricSelector, retrievedObject[index].metricas.arr);
+     await adicionarFields(metricSelector, retrievedObject[index].metricas.arr);
     }
   }
 
@@ -159,7 +159,7 @@ setTimeout(function() {
     }
     var xy = "";
     for (let x = 1; x <= selectListData.length; x++) {
-      await delay(200);
+      // await delay(200);
 
       //   var xx = document.querySelectorAll(
       //     'button.context-menu-button[role="menuitem"][aria-label]'
@@ -173,7 +173,7 @@ setTimeout(function() {
           // alert(botaoValue0.getAttribute("aria-label").trim())
           // alert(texto)
           // await delay(200);
-          document
+         await document
             .querySelectorAll(
               `concept-chip-list[title-text="${dado_ptbr}"] form .concept-chip-text,concept-chip-list[title-text="${dado_enus}"] form .concept-chip-text`
             )
@@ -237,7 +237,7 @@ setTimeout(function() {
     //         0,
     //     retrievedObject[index].linhas.str.replace(",", "|")
     //   );
-    selecionarDados(
+    await selecionarDados(
       'concept-chip-list[title-text="Linhas"] dropzone-box,concept-chip-list[title-text="Rows"] dropzone-box',
       0,
       retrievedObject[index].linhas.arr,
@@ -250,7 +250,7 @@ setTimeout(function() {
     //     0,
     //     retrievedObject[index].colunas.str.replace(",", "|")
     //   );
-    selecionarDados(
+    await selecionarDados(
       'concept-chip-list[title-text="Colunas"] dropzone-box,concept-chip-list[title-text="Columns"] dropzone-box',
       0,
       retrievedObject[index].colunas.arr,
@@ -259,7 +259,7 @@ setTimeout(function() {
     await delay(500);
     // await delay(5000);
     //valores
-    selecionarDados(
+    await selecionarDados(
       'concept-chip-list[title-text="Valores"] dropzone-box,concept-chip-list[title-text="Values"] dropzone-box',
       0,
       retrievedObject[index].valores.arr,
@@ -287,17 +287,17 @@ setTimeout(function() {
     var qtdFiltros = retrievedObject[index].filtros.oficial.length;
     var soma="";
     for (let [filtroTexto1, filtroTexto2, filtroTexto3] of filtros) {
-      await delay(2000);
+      // await delay(2000);
       // botão adicionar filter
-      waitForElmModified(
+      await waitForElmModified(
         'concept-chip-list[title-text="Filtros"] dropzone-box,concept-chip-list[title-text="Filters"]'
       ).then((elm) => {
         elm[0].firstElementChild.click(); // clique no primeiro item do array (é a LINHA)
       });
-      await delay(2000);
+      // await delay(2000);
       // captura texto de todas correspondeicas
       var xx
-      waitForElmModified(
+      await waitForElmModified(
         'button.context-menu-button[role="menuitem"][aria-label]'
       ).then((elm) => {
         xx = document.querySelectorAll(
@@ -305,55 +305,55 @@ setTimeout(function() {
           );
       });
  
-      await delay(2000);
+      // await delay(2000);
         // captura texto de todas correspondeicas regex, igual a, contem...
        
       for (let [botaoIndex, botaoValue] of xx.entries()) {
           /*selecionar dimensao/metrica do filtro
             
           */
-          document.querySelectorAll('filter-chip-list-settings-adapter .concept-chip span').forEach(val => {
+          await document.querySelectorAll('filter-chip-list-settings-adapter .concept-chip span').forEach(val => {
               soma+= val.getAttribute('aria-label');
           })
           if (
-            botaoValue?.getAttribute("aria-label")?.trim() ==
-            filtroTexto1.trim() && !soma.includes(filtroTexto1.trim())
+            await botaoValue?.getAttribute("aria-label")?.trim() ==
+            await filtroTexto1.trim() && await !soma.includes(filtroTexto1.trim())
           ) {
-            await delay(1000);
-            botaoValue.click();
-            await delay(1500);
+            // await delay(1000);
+            await botaoValue.click();
+            // await delay(1500);
 
             /*selecionar correspondencia
             
             */
             //clicar no dropdown
             await delay(1000);
-            waitForElm("[name=filterForm] md-select.ng-invalid").then((elm) => {
+            await waitForElm("[name=filterForm] md-select.ng-invalid").then((elm) => {
               elm.click(); 
             });
-            await delay(2000);
+            // await delay(2000);
             /*selecionar correspondencia
             
             */
               for (let [index, val] of document.querySelectorAll('md-option[ng-repeat*="matchType"]').entries()) {
                 if (
-                  val?.textContent
+                  await val?.textContent
                     ?.replace(/\n*|\r*|\t*|\s{2,}/gi, "")
-                    .trim() == filtroTexto2.trim()){
+                    .trim() == await filtroTexto2.trim()){
                   // waitForElm(x).then((elm) => {
                   // console.log(elm)
-                  await delay(2000);
-                  val.click();
+                  // await delay(2000);
+                  await val.click();
                   // elm.dispatchEvent(new Event("input", { bubbles: true }))
                   // });
-                  await delay(2000);
+                  // await delay(2000);
                 }
             }
             /*inserir texto no input e salvar / insira a expressão
             
             */
-            await delay(1000);
-            waitForElm("filter-menu input").then((elm) => {
+            // await delay(1000);
+           await waitForElm("filter-menu input").then((elm) => {
               document.querySelectorAll('filter-menu input.ng-empty')[0].value = filtroTexto3; // clique no primeiro item do array (é a LINHA)
               document.querySelectorAll('filter-menu input.ng-empty')[0].dispatchEvent(
                 new Event("input", {
@@ -367,7 +367,7 @@ setTimeout(function() {
               /*clicar no botão aplicar
             
             */
-                waitForElmModified('filter-menu button[type=submit]').then((elm) => {
+                await waitForElmModified('filter-menu button[type=submit]').then((elm) => {
                   var botoesAplicar = document.querySelectorAll('filter-menu button[type=submit]');
                   elm[botoesAplicar.length-1].click();
                 });
@@ -375,7 +375,7 @@ setTimeout(function() {
           }
         }
             
-      await delay(1500);
+      // await delay(1500);
     }
   }
 
@@ -388,12 +388,12 @@ SELECIONAR MÉTRICAS E DIMENSOES
     waitForElm(selector).then((elm) => {
       elm.click();
     });
-    await delay(2000)
+    // await delay(2000)
     // 2. CLIQUE NO LINK expand all
     waitForElm(".expand-all-button").then((elm) => {
       elm.click();
     });
-    await delay(2000)
+    // await delay(2000)
     // 3. CLIQUE NOS CHECKBOXES - marcar/selecionar dimensoes
     waitForElm(".first-col-value").then((elm) => {
         for (let [botaoIndex0, botaoValue0] of document.querySelectorAll(".first-col-value").entries()) {
@@ -482,15 +482,15 @@ FUNCTION ESPERAR O ELEMENTO EXISTIR
   
   */
 
-  await delay(1500);
-  addDimensionsMetrics();
-  await delay(3500);
-  aplicarDados();
-  await delay(8000);
-  selecionarFiltros()
-  await delay(8000);
+  // await delay(1500);
+  await addDimensionsMetrics();
+  // await delay(3500);
+  await aplicarDados();
+  // await delay(8000);
+  await selecionarFiltros()
+  // await delay(8000);
 
-  var tabInput = document.querySelectorAll(".input-label.step-name > input")[0]
+  var tabInput = await document.querySelectorAll(".input-label.step-name > input")[0]
     // adiiconar o nome da tab, input.value - mudar o nome da tab
     tabInput.value =
     retrievedObject[index].tabName;
