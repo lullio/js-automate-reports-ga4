@@ -484,10 +484,25 @@ FUNCTION ESPERAR O ELEMENTO EXISTIR
 
   await delay(1500);
   addDimensionsMetrics();
-  await delay(1500);
+  await delay(3500);
   aplicarDados();
   await delay(8000);
   selecionarFiltros()
+  await delay(8000);
+
+  var tabInput = document.querySelectorAll(".input-label.step-name > input")[0]
+    // adiiconar o nome da tab, input.value - mudar o nome da tab
+    tabInput.value =
+    retrievedObject[index].tabName;
+    await delay(1000);
+  tabInput.dispatchEvent(
+    new Event("input", {
+      bubbles: true,
+      detail: { text: () => retrievedObject[index].tabName },
+    })
+  ); // google
+  await delay(1000);
+  tabInput.dispatchEvent(new Event('blur'));
 
   await delay(55000);
 
@@ -495,32 +510,12 @@ FUNCTION ESPERAR O ELEMENTO EXISTIR
 
     */
   // clicar em + para adicionar tab
-  document
-    .querySelectorAll('button[data-guidedhelpid="step-selector-add-step"]')[0]?.click();
+  document.querySelectorAll('button[data-guidedhelpid="step-selector-add-step"]')[0]?.click();
   await delay(1000);
   // escolher o formato livre, relatorio free form
   document
-    .querySelectorAll(
-      '.context-menu-group button[aria-label="Formato livre"], .context-menu-group button[aria-label="Free form"]'
-    )[0]?.click();
+    .querySelectorAll('.context-menu-group button[aria-label="Formato livre"], .context-menu-group button[aria-label="Free form"]')[0]?.click();
     await delay(2000);
-
-  // adiiconar o nome da tab, input.value - mudar o nome da tab
-  document.querySelectorAll(".input-label.step-name > input")[0].value =
-    retrievedObject[index].tabName;
-    await delay(500);
-  document.querySelectorAll(".input-label.step-name > input")[0].dispatchEvent(
-    new Event("input", {
-      bubbles: true,
-      detail: { text: () => retrievedObject[index].tabName },
-    })
-  ); // google
-  document.querySelectorAll(".input-label.step-name > input")[0].dispatchEvent(new Event('blur'));
-  const ke = new KeyboardEvent('keydown', {
-    bubbles: true, cancelable: true, keyCode: 13
-});
-document.body.dispatchEvent(ke);
-  await delay(1500);
 } //fim do for das tabs
 
 /* BOTOES E CAPTURAS - BACKUP
