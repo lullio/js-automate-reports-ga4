@@ -294,7 +294,7 @@ setTimeout(function() {
       ).then((elm) => {
         elm[0].firstElementChild.click(); // clique no primeiro item do array (é a LINHA)
       });
-      // await delay(2000);
+      await delay(1000);
       // captura texto de todas correspondeicas
       var xx
       await waitForElmModified(
@@ -307,7 +307,7 @@ setTimeout(function() {
  
       // await delay(2000);
         // captura texto de todas correspondeicas regex, igual a, contem...
-       
+      await delay(1000);
       for (let [botaoIndex, botaoValue] of xx.entries()) {
           /*selecionar dimensao/metrica do filtro
             
@@ -315,6 +315,7 @@ setTimeout(function() {
           await document.querySelectorAll('filter-chip-list-settings-adapter .concept-chip span').forEach(val => {
               soma+= val.getAttribute('aria-label');
           })
+          await delay(1000);
           if (
             await botaoValue?.getAttribute("aria-label")?.trim() ==
             await filtroTexto1.trim() && await !soma.includes(filtroTexto1.trim())
@@ -322,15 +323,16 @@ setTimeout(function() {
             // await delay(1000);
             await botaoValue.click();
             // await delay(1500);
-
+            await delay(1000);
             /*selecionar correspondencia
             
             */
             //clicar no dropdown
-            await delay(1000);
+            // await delay(1000);
             await waitForElm("[name=filterForm] md-select.ng-invalid").then((elm) => {
               elm.click(); 
             });
+            await delay(1000);
             // await delay(2000);
             /*selecionar correspondencia
             
@@ -348,7 +350,8 @@ setTimeout(function() {
                   // });
                   // await delay(2000);
                 }
-            }
+              }
+              await delay(1000);
             /*inserir texto no input e salvar / insira a expressão
             
             */
@@ -363,7 +366,8 @@ setTimeout(function() {
               ); // google ñ valida valor de input inserido programaticamente
               
              });
-              await delay(2000);
+             await delay(1000);
+              // await delay(2000);
               /*clicar no botão aplicar
             
             */
@@ -371,7 +375,8 @@ setTimeout(function() {
                   var botoesAplicar = document.querySelectorAll('filter-menu button[type=submit]');
                   elm[botoesAplicar.length-1].click();
                 });
-                await delay(2000);
+                await delay(1000);
+                // await delay(2000);
           }
         }
             
@@ -495,25 +500,25 @@ FUNCTION ESPERAR O ELEMENTO EXISTIR
     tabInput.value =
     retrievedObject[index].tabName;
     await delay(1000);
-  tabInput.dispatchEvent(
+  await tabInput.dispatchEvent(
     new Event("input", {
       bubbles: true,
       detail: { text: () => retrievedObject[index].tabName },
     })
   ); // google
   await delay(1000);
-  tabInput.dispatchEvent(new Event('blur'));
+  await tabInput.dispatchEvent(new Event('blur'));
 
-  await delay(55000);
+  await delay(1000);
 
   /*  CRIAR NOVA TAB
 
     */
   // clicar em + para adicionar tab
-  document.querySelectorAll('button[data-guidedhelpid="step-selector-add-step"]')[0]?.click();
+  await document.querySelectorAll('button[data-guidedhelpid="step-selector-add-step"]')[0]?.click();
   await delay(1000);
   // escolher o formato livre, relatorio free form
-  document
+  await document
     .querySelectorAll('.context-menu-group button[aria-label="Formato livre"], .context-menu-group button[aria-label="Free form"]')[0]?.click();
     await delay(2000);
 } //fim do for das tabs
