@@ -8,12 +8,12 @@
 
 /*Botão + de adicionar métrica, dimensão e Segmentos
  */
-// let dimensionSelector =
-//   '.dimension-chip-list [aria-label="Add dimension"],.dimension-chip-list [aria-label="Adicionar dimensão"]';
-// let metricSelector =
-//   '.metric-chip-list [aria-label="Add metric"],.metric-chip-list [aria-label="Adicionar métrica"]';
-// let segmentSelector =
-//   '.segment-chip-list [aria-label="Add segment"],.segment-chip-list [aria-label="Adicionar segmento"]';
+let dimensionSelector =
+  '.dimension-chip-list [aria-label="Add dimension"],.dimension-chip-list [aria-label="Adicionar dimensão"]';
+let metricSelector =
+  '.metric-chip-list [aria-label="Add metric"],.metric-chip-list [aria-label="Adicionar métrica"]';
+let segmentSelector =
+  '.segment-chip-list [aria-label="Add segment"],.segment-chip-list [aria-label="Adicionar segmento"]';
 
 /* capturar todos "botões" de soltar e arrastar
  */
@@ -71,17 +71,17 @@ for (index = 0; index <= retrievedObject.length; index++) {
     ) {
       adicionarFields(
         dimensionSelector,
-        retrievedObject[index].dimensoes.strRegex
+        retrievedObject[index].dimensoes.arr
       );
-      await delay(2500);
     }
+    await delay(5000);
     if (
       document.querySelectorAll(
         ".data-panel-concept-list.metric-chip-list form"
       ).length <= 5
     ) {
       // executar function para adicionar métricas
-      adicionarFields(metricSelector, retrievedObject[index].metricas.strRegex);
+      adicionarFields(metricSelector, retrievedObject[index].metricas.arr);
     }
   }
 
@@ -281,78 +281,72 @@ setTimeout(function() {
     //     // clique no botão "soltar ou selecionar dimensão"
     //     elm[0]?.firstElementChild?.click(); // clique no primeiro item do array (é a LINHA)
     // });
-    // await delay(2000);
+    
+    // alert('hi')
     var filtros = retrievedObject[index].filtros.oficial;
     var qtdFiltros = retrievedObject[index].filtros.oficial.length;
 
-    for (filtro of filtros) {
-      await delay(1000);
+    for (let [filtroTexto1, filtroTexto2, filtroTexto3] of filtros) {
+      await delay(2000);
       // botão adicionar filter
-      await waitForElmModified(
+      waitForElmModified(
         'concept-chip-list[title-text="Filtros"] dropzone-box,concept-chip-list[title-text="Filters"]'
       ).then((elm) => {
         elm[0].firstElementChild.click(); // clique no primeiro item do array (é a LINHA)
       });
-      await delay(1000);
-
+      await delay(2000);
       // captura texto de todas correspondeicas
-      var xx = document.querySelectorAll(
+      var xx
+      waitForElmModified(
         'button.context-menu-button[role="menuitem"][aria-label]'
-      );
-      await delay(1000);
+      ).then((elm) => {
+        xx = document.querySelectorAll(
+            'button.context-menu-button[role="menuitem"][aria-label]'
+          );
+      });
+ 
+      await delay(2000);
+        // await delay(2000);
+        // captura texto de todas correspondeicas regex, igual a, contem...
+        var soma="";
       for (let [botaoIndex, botaoValue] of xx.entries()) {
-        var i = 0;
+        // await delay(2000);
         //console.log(index)
         // botão adicionar filter
 
-        for (let [filtroTexto1, filtroTexto2, filtroTexto3] of filtros) {
           //console.log(botaoValue?.getAttribute('aria-label')?.trim(), filtroTexto1)
           // await delay(1500);
+
           /*selecionar dimensao/metrica do filtro
             
-            */
+          */
+          document.querySelectorAll('filter-chip-list-settings-adapter .concept-chip span').forEach(val => {
+              soma+= val.getAttribute('aria-label');
+          })
           if (
             botaoValue?.getAttribute("aria-label")?.trim() ==
-            filtroTexto1.trim()
+            filtroTexto1.trim() && !soma.includes(filtroTexto1.trim())
           ) {
             // alert(filtroTexto1.trim())
             // alert(botaoValue?.getAttribute("aria-label")?.trim())
-            console.log(botaoValue);
-            //   await delay(1000);
-            console.log(botaoValue);
             await delay(1000);
             botaoValue.click();
-            // botaoValue = "sao201219210"
-            //   await delay(1000);
-            // alert(filtroTexto1)
-            // filtroTexto1 = "a321029c"
-            // alert(filtroTexto1)
-            // xx.splice(botaoIndex, 1);
-            //   filtros.pop();
-
+            await delay(1500);
+          }
+        }
             /*selecionar correspondencia
             
             */
-
             //clicar no dropdown
             await delay(1000);
             waitForElm("[name=filterForm] md-select").then((elm) => {
-              // console.log(elm)
-              // alert(elm)
-              // clique no botão "soltar ou selecionar dimensão"
-              elm?.click(); // clique no primeiro item do array (é a LINHA)
+              elm.click(); 
             });
-            //   await delay(1000);
+            await delay(2000);
             /*selecionar correspondencia
             
             */
-            await delay(1000);
-            waitForElmModified("md-option").then((elm) => {
-              for (let [index, val] of Array.from(
-                document.querySelectorAll("md-option")
-              ).entries()) {
-                //   alert("dropdown" + val?.textContent?.replace(/\n|\r|\t|\s{2,}/gi, '')?.trim())
-                //   alert("filtro: " + filtroTexto2)
+              for (let [index, val] of document.querySelectorAll('md-option[ng-repeat*="matchType"]').entries()) {
                 if (
                   val?.textContent
                     ?.replace(/\n*|\r*|\t*|\s{2,}/gi, "")
@@ -360,58 +354,36 @@ setTimeout(function() {
                 ) {
                   // waitForElm(x).then((elm) => {
                   // console.log(elm)
-
+                  await delay(2000);
                   val.click();
                   // elm.dispatchEvent(new Event("input", { bubbles: true }))
                   // });
+                  await delay(2000);
                 }
-              }
-            });
-            //   await delay(1000);
+            }
             /*inserir texto no input e salvar / insira a expressão
             
             */
-            await delay(1000);
+            await delay(3000);
             waitForElm("filter-menu input").then((elm) => {
-              // alert(filtroTexto3)
-              // console.log(elm)
-              // alert(elm)
-              // clique no botão "soltar ou selecionar dimensão"
-              elm.value = filtroTexto3; // clique no primeiro item do array (é a LINHA)
-              elm.dispatchEvent(
+              document.querySelectorAll('filter-menu input')[0].value = filtroTexto3; // clique no primeiro item do array (é a LINHA)
+              document.querySelectorAll('filter-menu input')[0].dispatchEvent(
                 new Event("input", {
                   bubbles: true,
                   detail: { text: () => filtroTexto3 },
                 })
               ); // google ñ valida valor de input inserido programaticamente
+              
+             });
+              await delay(2000);
               /*clicar no botão aplicar
             
             */
-              setTimeout(function () {
                 waitForElm("filter-menu button[type=submit]").then((elm) => {
-                  // console.log(elm)
-                  // alert(elm)
-                  // clique no botão "soltar ou selecionar dimensão"
+
                   elm.click();
                 });
-              }, 500);
-              //   // botão adicionar filter
-              //   waitForElmModified(
-              //     'concept-chip-list[title-text="Filtros"] dropzone-box,concept-chip-list[title-text="Filters"]'
-              //   ).then((elm) => {
-              //     elm[0]?.firstElementChild?.click(); // clique no primeiro item do array (é a LINHA)
-              //   });
-            });
-
-            i++;
-            await delay(1500);
-          }
-
-          // elm.dispatchEvent(new Event("input", { bubbles: true }))
-          // });
-        }
-        await delay(1500);
-      }
+                await delay(2000);
       await delay(1500);
     }
   }
@@ -420,31 +392,48 @@ setTimeout(function() {
 FUNCTION ADICIONAR MÉTRICAS E DIMENSÕES
 SELECIONAR MÉTRICAS E DIMENSOES
 */
-  function adicionarFields(selector, regex) {
+ async function adicionarFields(selector, arra) {
     // 1. CLIQUE NO ÍCONE + de select dimensions
     waitForElm(selector).then((elm) => {
       elm.click();
     });
-
+    await delay(2000)
     // 2. CLIQUE NO LINK expand all
     waitForElm(".expand-all-button").then((elm) => {
       elm.click();
     });
-
+    await delay(2000)
     // 3. CLIQUE NOS CHECKBOXES - marcar/selecionar dimensoes
     waitForElm(".first-col-value").then((elm) => {
-      document.querySelectorAll(".first-col-value").forEach((val) => {
-        if (val.textContent.trim().search(regex) !== -1) {
-          //console.log(val)
-          // clicar
-          val.click();
+        for (let [botaoIndex0, botaoValue0] of document.querySelectorAll(".first-col-value").entries()) {
+            // alert(botaoValue0)
+            for(textoDim of arra){
+                // alert(botaoValue0.textContent.trim())
+                // alert(textoDim.trim())
+                if (botaoValue0.textContent.trim() == textoDim.trim()) {
+                    //console.log(val)
+                    // clicar
+                    botaoValue0.click();
+                  }
+            }
         }
-      });
+
+    //   document.querySelectorAll(".first-col-value").forEach((val) => {
+    //     // alert(regex)
+    //     // alert(val.textContent.trim())
+    //     if (val.textContent.trim().search(regex) !== -1) {
+    //       //console.log(val)
+    //       // clicar
+    //       val?.click();
+    //     }
+    //   });
     });
+    await delay(2000)
     // 4. CLIQUE NO BOTÃO IMPORT
     waitForElm(".confirm-button.mdc-button").then((elm) => {
-      elm.click();
+      elm?.click();
     });
+    await delay(2000)
   }
 
   /* 
@@ -496,38 +485,46 @@ FUNCTION ESPERAR O ELEMENTO EXISTIR
       setTimeout(resolve, milliseconds);
     });
   }
-  await delay(500);
+
+  /*EXECUTAR FUNÇÕES
+  
+  
+  */
+
+  await delay(1500);
   addDimensionsMetrics();
-  await delay(500);
+  await delay(1500);
   aplicarDados();
-  await delay(9000);
+  await delay(8000);
+  selecionarFiltros()
+
+  await delay(55000);
 
   /*  CRIAR NOVA TAB
 
     */
   // clicar em + para adicionar tab
   document
-    .querySelectorAll('button[data-guidedhelpid="step-selector-add-step"]')[0]
-    .click();
-  await delay(500);
+    .querySelectorAll('button[data-guidedhelpid="step-selector-add-step"]')[0]?.click();
+  await delay(1000);
   // escolher o formato livre, relatorio free form
   document
     .querySelectorAll(
       '.context-menu-group button[aria-label="Formato livre"], .context-menu-group button[aria-label="Free form"]'
-    )[0]
-    .click();
-  await delay(500);
+    )[0]?.click();
+    await delay(2000);
 
   // adiiconar o nome da tab, input.value - mudar o nome da tab
   document.querySelectorAll(".input-label.step-name > input")[0].value =
     retrievedObject[index].tabName;
+    await delay(500);
   document.querySelectorAll(".input-label.step-name > input")[0].dispatchEvent(
     new Event("input", {
       bubbles: true,
       detail: { text: () => retrievedObject[index].tabName },
     })
   ); // google
-  await delay(500);
+  await delay(1500);
 } //fim do for das tabs
 
 /* BOTOES E CAPTURAS - BACKUP

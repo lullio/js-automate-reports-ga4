@@ -161,7 +161,10 @@ arrFiltrar.forEach((val2, i2) => {
 
 /*  CAPTURAR O NOME DA TAB ATIVA - TOP
 */
-var tabName = document.querySelector('.step-name input').getAttribute('aria-label');
+var tabName1=""
+async function tabName(){
+  tabName1 = document.querySelector('.step-name input').getAttribute('aria-label');
+}tabName()
 
 
 /*
@@ -201,7 +204,7 @@ let tabData = {
 		strRegex: allFiltersStrRegex,
 		oficial: oficial
     },
-    tabName: tabName
+    tabName: tabName1
 }
 return tabData;
 }
@@ -219,7 +222,7 @@ async function td(){
          allTabsData.push(getTabData());
          console.log("Capturando todos items da Tab");
          // allTabsData[i].push(tab.textContent)
-         await delay(2000);
+         await delay(5000);
          tab.click()
          console.log("Executei o clique");
          i++;
